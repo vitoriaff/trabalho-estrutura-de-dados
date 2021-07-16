@@ -1,0 +1,177 @@
+
+#criando a classe ListNode
+class ListNode: 
+  def __init__(self, data, nextNode = None, antNode = None): # criando a função __init__ para os argumento ( data, nextNode= None e antNode= None)
+    self.data = data # fazendo o parametro(self) de data
+    self.nextNode = nextNode # fazendo o parametro(self) de antNode
+    self.antNode = antNode # fazendo o parametro (self) de nextNode
+  
+  def setData(self, val): # crinando a função para altera o valor do atrubuto data
+    self.data = val # colocando o valor de val
+
+  def getData(self): # crinando a função para pegando o valor do atributo data
+    return self.data # retornando esse valor
+  
+  def getNextNode(self): # crinando a função para pegando o valor do atributo nextNode
+    return self.nextNode # retornando esse valor 
+
+  def setNextNode(self, val): # crinando a função para altera o valor do atrubuto nextNode
+    self.nextNode = val # colocando o valor de val
+  
+  def getAntNode(self): #  crinando a função para pegando o valor do atributo antNode
+    return self.antNode # retornando esse valor 
+
+  def setAntNode(self, val): # crinando a função para altera o valor do atrubuto antNode
+    self.antNode = val # colocando o valor de val
+
+
+#Lista Duplamente Encadeada com Iterador
+class DoublyLinkedListIterator:
+  def __init__(self, firstNode = None):   # criando a função __init__ para o argumento ( firstNode= None)
+    self.firstNode = firstNode # fazendo o parametro(self) de firstNode 
+    self.lastNode = firstNode # fazendo o parametro(self) de lastNode
+    self.iterator = firstNode # fazendo um parametro(self) de iterator 
+    if firstNode: # Se o firstNode for diferente de None então começar a Lista Duplamente Encadeada com tamanho 1
+      self.size = 1 # tamanho receber 1
+    else: # se firstNode for None então começar Lista Duplamente Encadeada com tamanho 0
+      self.size = 0 # tamanho receber 0
+  
+  def getSize(self): # Criando a função getSize para retorna o tamanho da Lista Duplamente Encadeada
+    return self.size # Retornando tamanho
+
+  def setSize(self, size): # Criando a função setSize para alocar o tamanho da Lista Duplamente Encadeada
+    self.size = size # Alocando o valor
+  
+  def get_firstNode(self): # Criando a função get_firstNode para retorna o primeiro elemento
+    return self.firstNode # Retornando o primeiro elemento
+
+  def get_lastNode(self): # Criando a função get_lastNode para retorna o ultimo elemento
+    return self.lastNode # Retornando o ultimo elemento
+  
+  def get_iterator(self): # Criando a função get_iterator para retorna o iterador
+    return self.iterator # Retornando o iterador
+  
+  def set_firstNode(self, firstNode=None): # Criando a função set_firstNode na qual firstNode pode receber None
+    self.firstNode = firstNode # Alocando o firsNode
+  
+  def set_lastNode(self, lastNode=None): # Criando a função set_lastNdoe na qual lastNode pode receber None
+    self.lastNode = lastNode # Alocando o lastNode
+
+  def set_iterator(self, iterator = None): # Criando a função set_iterator na qual iterator pode receber None
+    self.iterator = iterator # Alocando o iterator
+
+  def first_Node(self): # Criando a função first_Node que tem a função colocar o iterador no primeiro elemento
+    self.iterator = self.firstNode # iterator vai receber firstNode
+    return True # Retornando verdadeiro
+  
+  def last_Node(self): # Criando a função last_Node 
+    self.iterator = self.lastNode
+    return True
+  
+  def nextNode(self):
+    if (self.iterator):
+      self.iterator = self.iterator.nextNode
+    return True
+
+  def undefinedIterator(self):
+    if (self.iterator == None):
+      return True
+    else:
+      return False
+  
+
+  def addNode(self, data): 
+    newNode = ListNode(data,None)
+    newNode.nextNode = None
+    newNode.antNode = None
+    if (size == 0):
+      self.iterator = newNode
+      self.lastNode = newNode 
+      self.firstNode = newNode 
+    elif (self.iterator == self.lastNode): 
+      self.antNode = self.lastNode 
+      self.lastNode.nexNode = newNode 
+      self.iterator = newNode 
+      self.lastNode = newNode 
+    else: 
+      newNode.nextNode = self.iterator.nextNode 
+      self.iterator.nextNode.antNode = newNode 
+      newNode.antNode = self.iterador 
+      self.iterator.nextNode = newNode 
+      self.iterator = newNode 
+    self.size += 1 
+    return True 
+
+  def posNode(self, position):
+    if (position > 0 and position <= self.size):
+      i = 1
+      self.iterator = self.firstNode
+      while (i < position):
+        if (self.iterator.nextNode != None):
+          self.iterator = self.iterator.nextNode
+          i += 1
+      return  True
+    else:
+      return False
+
+  def elimNode(self):
+    if (self.iterator == self.firstNode):
+      if (self.lastNode == self.firstNode):
+        self.lastNode = None
+        self.firstNode = None
+        self.iterador = None
+      else:
+        self.firstNode = self.firstNode.nextNode
+        self.iterador.nextNode = None
+        self.firstNode.antNode = None
+        self.iterador = self.firstNode
+    else:
+      if self.iterator == self.lastNode:
+        current = self.iterator.antNode
+        current.nextNode = None
+        self.iterator = None
+        self.lastNode.antNode = None
+        self.lastNode = current
+      else:
+        # Não estou conseguindo pensar na logica para fazer quando o interador está no meio da lista
+        self.iterator.antNode.nextNode = self.iterator.nextNode
+        self.iterator.nextNode.antNode = self.iterator.antNode
+        current = self.iterator
+        self.iterator = self.iterator.nextNode
+        current.nexNode = None
+        current.antNode = None
+      self.size += 1
+      return True
+
+  def insNode(self, data):
+    newNode = ListNode(data,None)
+    newNode.nextNode = None
+    if (self.size == 0): # Lista vazia
+      self.iterator = newNode
+      self.firstNode = newNode
+      self.lastNode = newNode
+    elif self.iterator == self.firstNode: # Iterador no inicio da lista
+      newNode.nextNode = self.iterator
+      self.iterator.antNode = newNode
+      self.iterator = newNode
+      self.firstNode = newNode
+    else: # Iterador no meio da lista
+      newNode.antNode = self.iterator.antNode
+      newNode.nextNode = self.iterator
+      self.iterator.antNode = newNode
+      self.iterator = newNode
+    self.size += 1
+    return True
+
+
+----
+
+Trabalho: ajuda nóis
+
+listaDuplamenteEncadeadaComIterador.py
+
+Classes:
+
+class ListNode:
+
+class DoublyLinkedListIterator
